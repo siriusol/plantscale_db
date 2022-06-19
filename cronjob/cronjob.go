@@ -8,7 +8,7 @@ import (
 
 func Init() {
 	ctx := context.Background()
-	err := gocron.Every(1).Second().Do(open.NewHeartBeat, ctx, "cronjob")
+	err := gocron.Every(1).Hour().Do(open.NewHeartBeat, ctx, "cronjob")
 	if err != nil {
 		panic(err)
 	}
