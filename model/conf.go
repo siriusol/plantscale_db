@@ -9,4 +9,5 @@ type MySQLConf struct {
 	Username string
 	Password string
 	DBName   string
+	Port     int32
 }

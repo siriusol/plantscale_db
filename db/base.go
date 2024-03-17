@@ -2,9 +2,11 @@ package db
 
 import (
 	"fmt"
+	gomysql "github.com/go-sql-driver/mysql"
 	"github.com/siriusol/plantscale_db/pkg"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"time"
 )
 
 var (
@@ -14,9 +16,22 @@ var (
 func Init() {
 	var err error
 	mysqlConf := pkg.GetDBConfig()
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?charset=utf8mb4&parseTime=True&tls=true", mysqlConf.Username, mysqlConf.Password, mysqlConf.Host, mysqlConf.DBName)
-	dsn += "&loc=Asia%2fShanghai"
-	myDBClient, err = gorm.Open(mysql.Open(dsn))
+
+	loc, err := time.LoadLocation("Asia/Shanghai")
+	if err != nil {
+		panic(err)
+	}
+
+	cfg := gomysql.Config{
+		User:      mysqlConf.Username,
+		Passwd:    mysqlConf.Password,
+		Addr:      fmt.Sprintf("%s:%d", mysqlConf.Host, mysqlConf.Port),
+		Loc:       loc,
+		ParseTime: false,
+		DBName:    mysqlConf.DBName,
+		Net:       "tcp",
+	}
+	myDBClient, err = gorm.Open(mysql.Open(cfg.FormatDSN()))
 	if err != nil {
 		panic(err)
 	}
