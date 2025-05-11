@@ -55,5 +55,5 @@ func NewHeartBeat(ctx context.Context, desc string) error {
 		CreatedTime: now,
 		UpdatedTime: now,
 	}
-	return dal.CreateHeartBeat(ctx, beat)
+	return dal.CreateHeartBeat(ctx, &beat)
 }

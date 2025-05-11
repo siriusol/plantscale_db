@@ -27,7 +27,7 @@ func Init() {
 		Passwd:    mysqlConf.Password,
 		Addr:      fmt.Sprintf("%s:%d", mysqlConf.Host, mysqlConf.Port),
 		Loc:       loc,
-		ParseTime: false,
+		ParseTime: true,
 		DBName:    mysqlConf.DBName,
 		Net:       "tcp",
 	}
